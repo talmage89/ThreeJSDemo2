@@ -1,7 +1,10 @@
-import './style.css';
-
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
+const spaceImgUrl = new URL('./space.jpeg', import.meta.url).href;
+const moonImgUrl = new URL('./moon.jpeg', import.meta.url).href;
+const smileyImgUrl = new URL('./circle.png', import.meta.url).href;
+const avatarUrl = new URL('./avatar.glb', import.meta.url).href;
 
 const scene = new THREE.Scene();
 
@@ -29,7 +32,7 @@ scene.add( torus );
 
 const AVATAR_Rotate = new THREE.Object3D();
 const loader = new GLTFLoader();
-loader.load( '/avatar.glb', function ( gltf ) {
+loader.load( avatarUrl , function ( gltf ) {
   const avatar = gltf.scene;
   const box = new THREE.Box3( ).setFromObject( avatar );
   const c = box.getCenter( new THREE.Vector3( ) );
@@ -58,14 +61,14 @@ function addStar() {
 
 Array(2000).fill().forEach(addStar);
 
-const spaceTexture = new THREE.TextureLoader().load( '/space.jpeg' );
+const spaceTexture = new THREE.TextureLoader().load( spaceImgUrl );
 scene.background = spaceTexture;
 
 const moonTextureLoader = new THREE.TextureLoader();
 const moonGeometry = new THREE.SphereGeometry(8, 30, 30);
 const moonMaterial = new THREE.MeshBasicMaterial({ 
   color: 0xffffff,
-  map: moonTextureLoader.load( '/moon.jpeg' ),
+  map: moonTextureLoader.load( moonImgUrl ),
 });
 const moon = new THREE.Mesh(moonGeometry, moonMaterial);
 
@@ -88,7 +91,7 @@ const smileyTextureLoader = new THREE.TextureLoader();
 const smileyGeometry = new THREE.CircleGeometry(5, 40);
 const smileyMaterial = new THREE.MeshBasicMaterial({
   color: 0xffffff,
-  map: smileyTextureLoader.load( './circle.png' )
+  map: smileyTextureLoader.load( smileyImgUrl )
 });
 const smiley = new THREE.Mesh(smileyGeometry, smileyMaterial);
 smiley.position.x = -40;
